@@ -25,8 +25,13 @@ function http<T = any>(
   const successHandler = (res: AxiosResponse<Response<T>>) => {
     const authStore = useAuthStore()
 
+    // chatgpt-web default success handler
     if (res.data.status === 'Success' || typeof res.data === 'string')
       return res.data
+
+    // project success handler
+    if (res.status === 200)
+      return res.data.data
 
     if (res.data.status === 'Unauthorized') {
       authStore.removeToken()
@@ -37,6 +42,13 @@ function http<T = any>(
   }
 
   const failHandler = (error: Response<Error>) => {
+    const res = error?.response
+    if (res.status === 500)
+      window.$message.error('服务器出错了')
+
+    if (res.status === 400)
+      return Promise.reject(res.data)
+
     afterRequest?.()
     throw new Error(error?.message || 'Error')
   }

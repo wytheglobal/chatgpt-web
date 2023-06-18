@@ -8,7 +8,7 @@ export function fetchChatAPI<T = any>(
   signal?: GenericAbortSignal,
 ) {
   return post<T>({
-    url: '/chat',
+    url: '/gpt/chat',
     data: { prompt, options },
     signal,
   })
@@ -16,7 +16,7 @@ export function fetchChatAPI<T = any>(
 
 export function fetchChatConfig<T = any>() {
   return post<T>({
-    url: '/config',
+    url: '/gpt/config',
   })
 }
 
@@ -45,22 +45,28 @@ export function fetchChatAPIProcess<T = any>(
   }
 
   return post<T>({
-    url: '/chat-process',
+    url: '/gpt/chat-process',
     data,
     signal: params.signal,
     onDownloadProgress: params.onDownloadProgress,
   })
 }
 
+export function fetchModelList<T>() {
+  return post<T>({
+    url: '/model/list',
+  })
+}
+
 export function fetchSession<T>() {
   return post<T>({
-    url: '/session',
+    url: '/gpt/session',
   })
 }
 
 export function fetchVerify<T>(token: string) {
   return post<T>({
-    url: '/verify',
+    url: '/gpt/verify',
     data: { token },
   })
 }

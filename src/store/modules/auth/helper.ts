@@ -7,6 +7,7 @@ export function getToken() {
 }
 
 export function setToken(token: string) {
+  console.log('tomwang set token', token)
   return ss.set(LOCAL_NAME, token)
 }
 

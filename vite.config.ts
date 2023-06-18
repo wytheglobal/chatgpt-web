@@ -36,10 +36,15 @@ export default defineConfig((env) => {
       port: 1002,
       open: false,
       proxy: {
-        '/api': {
+        '/api/gpt': {
           target: viteEnv.VITE_APP_API_BASE_URL,
           changeOrigin: true, // 允许跨域
-          rewrite: path => path.replace('/api/', '/'),
+          rewrite: path => path.replace('/api/gpt/', '/'),
+        },
+        '/api/base': {
+          target: viteEnv.VITE_APP_SERVICE_BASE_URL,
+          changeOrigin: true, // 允许跨域
+          rewrite: path => path.replace('/api/base/', '/'),
         },
       },
     },

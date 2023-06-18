@@ -26,7 +26,7 @@ export default {
     failed: 'Failed',
     verify: 'Verify',
     unauthorizedTips: 'Unauthorized, please verify first.',
-		stopResponding: 'Stop Responding',
+    stopResponding: 'Stop Responding',
   },
   chat: {
     newChatButton: 'New Chat',
@@ -91,5 +91,8 @@ export default {
     importRepeatContent: 'Content is repeatedly skipped: {msg}',
     onlineImportWarning: 'Note: Please check the JSON file source!',
     downloadError: 'Please check the network status and JSON file validity',
+  },
+  auth: {
+    verifyCodeSendFailed: 'Verify Code Send Failed',
   },
 }

@@ -2,6 +2,7 @@ import type { App } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { setupPageGuard } from './permission'
+import userRoutes from './user'
 import { ChatLayout } from '@/views/chat/layout'
 
 const routes: RouteRecordRaw[] = [
@@ -18,7 +19,7 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
+  userRoutes,
   {
     path: '/404',
     name: '404',
