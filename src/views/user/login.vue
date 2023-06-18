@@ -11,6 +11,7 @@ import {
 } from 'naive-ui'
 import { useAuthStore } from '@/store'
 import { doLogin } from '@/api/user'
+import { router } from '@/router'
 
 interface ModelType {
   email: string | null
@@ -26,10 +27,10 @@ export default defineComponent({
     const rPasswordFormItemRef = ref<FormItemInst | null>(null)
     const message = useMessage()
     const modelRef = ref<ModelType>({
-      email: 'wangyu0248@gmail.com',
+      email: '254287512@qq.com',
       password: null,
-      verify_code: null,
-      reenteredPassword: null,
+      // verify_code: null,
+      // reenteredPassword: null,
     })
     function validatePasswordStartWith(
       rule: FormItemRule,
@@ -43,6 +44,20 @@ export default defineComponent({
     }
     function validatePasswordSame(rule: FormItemRule, value: string): boolean {
       return value === modelRef.value.password
+    }
+    function sendLoginRequest() {
+      const data = {
+        email: modelRef.value.email!,
+        password: modelRef.value.password!,
+      }
+      console.log('doLogin', data)
+      doLogin(data).then((res: any) => {
+        message.success('登录成功')
+        authStore.setToken(res.access_token)
+        router.push('/')
+      }, (err) => {
+        message.error(err.msg)
+      })
     }
     const rules: FormRules = {
       // age: [
@@ -96,28 +111,12 @@ export default defineComponent({
       },
       async handleValidateButtonClick(e: MouseEvent) {
         e.preventDefault()
-
-        const data = {
-          email: modelRef.value.email!,
-          password: modelRef.value.password!,
-        }
-        console.log('doLogin', data)
-        doLogin(data).then((res: any) => {
-          message.success('登录成功')
-          authStore.setToken(res.access_token)
-        }, () => {
-          message.error('登录失败')
-        })
-        // formRef.value?.validate(
-        //   (errors: Array<FormValidationError> | undefined) => {
-        //     if (!errors) {
-        //       message.success("Valid");
-        //     } else {
-        //       console.log(errors);
-        //       message.error("Invalid");
-        //     }
-        //   }
-        // );
+        formRef.value?.validate(
+          (errors: Array<FormValidationError> | undefined) => {
+            if (!errors)
+              sendLoginRequest()
+          },
+        )
       },
     }
   },
@@ -128,37 +127,20 @@ export default defineComponent({
   <div style="width: 400px;margin: 0 auto;">
     <n-form ref="formRef" :model="model" :rules="rules">
       <n-form-item path="email" label="Email">
-        <n-input
-          v-model:value="model.email"
-          @keydown.enter.prevent
-        />
+        <n-input v-model:value="model.email" @keydown.enter.prevent />
       </n-form-item>
       <n-form-item path="password" label="Password">
-        <n-input
-          v-model:value="model.password"
-          type="password"
-          @input="handlePasswordInput"
-          @keydown.enter.prevent
-        />
+        <n-input v-model:value="model.password" type="password" @input="handlePasswordInput" @keydown.enter.prevent />
       </n-form-item>
       <n-row :gutter="[0, 24]">
         <n-col :span="24">
           <div style="display: flex; justify-content: flex-end">
-            <n-button
-              round
-              type="default"
-              class="mr-12"
-            >
+            <n-button round type="default" class="mr-12">
               <router-link to="/user/register">
                 Register
               </router-link>
             </n-button>
-            <n-button
-              :disabled="model.age === null"
-              round
-              type="primary"
-              @click="handleValidateButtonClick"
-            >
+            <n-button round type="primary" @click="handleValidateButtonClick">
               Login
             </n-button>
           </div>

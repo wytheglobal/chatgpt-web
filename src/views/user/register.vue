@@ -25,7 +25,7 @@ export default defineComponent({
     const rPasswordFormItemRef = ref<FormItemInst | null>(null)
     const ms = useMessage()
     const modelRef = ref<ModelType>({
-      email: 'wangyu0248@gmail.com',
+      email: '254287512@qq.com',
       password: null,
       verify_code: null,
       reenteredPassword: null,
@@ -45,6 +45,18 @@ export default defineComponent({
       return value === modelRef.value.password
     }
     const rules: FormRules = {
+      email: [
+        {
+          required: true,
+          message: 'Email is required',
+        },
+      ],
+      verify_code: [
+        {
+          required: true,
+          message: 'Verification code is required',
+        },
+      ],
       age: [
         {
           required: true,
@@ -152,12 +164,12 @@ export default defineComponent({
       <n-form-item path="email" label="Email">
         <n-input v-model:value="model.email" @keydown.enter.prevent />
       </n-form-item>
-      <n-form-item path="verify_code" label="Verify Code">
+      <n-form-item path="verify_code" label="Verification Code">
         <n-input v-model:value="model.verify_code" @keydown.enter.prevent />
         <div style="margin-left: 12px">
           <n-button v-if="!isVeirifyCodeSent" @click="sendVerifyCode">
             <text>
-              Send Verify Code
+              Send Verification Code
             </text>
           </n-button>
           <n-button v-else style="width: 100px;" disabled>

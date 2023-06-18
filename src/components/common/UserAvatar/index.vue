@@ -4,12 +4,18 @@ import { NAvatar } from 'naive-ui'
 import { useAuthStore, useUserStore } from '@/store'
 import defaultAvatar from '@/assets/avatar.jpg'
 import { isString } from '@/utils/is'
+import { router } from '@/router'
 
 const userStore = useUserStore()
 const authStore = useAuthStore()
 
 const authInfo = computed(() => authStore.session)
 const userInfo = computed(() => userStore.userInfo)
+
+const doLogout = function () {
+  authStore.removeToken()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -32,11 +38,19 @@ const userInfo = computed(() => userStore.userInfo)
         {{ authInfo.email ?? 'ChenZhaoYu' }}
       </h2>
       <p class="overflow-hidden text-xs text-gray-500 text-ellipsis whitespace-nowrap">
-        <span
-          v-if="isString(userInfo.description) && userInfo.description !== ''"
-          v-html="userInfo.description"
-        />
+        <!-- <n-button text tiny error="danger"> -->
+        <!-- Logout -->
+        <!-- </n-button> -->
+        <span class="btn-logout" @click="doLogout">
+          Logout
+        </span>
       </p>
     </div>
   </div>
 </template>
+
+<style lang="less">
+.btn-logout {
+  cursor: pointer;
+}
+</style>
